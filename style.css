@@ -1,0 +1,520 @@
+/* =========================================================
+   Should I evolve? - style.css
+   ========================================================= */
+
+/* ---------- Colours and fonts: change these to restyle everything ---------- */
+:root {
+    --paper: #F4F6FA;     /* page background */
+    --surface: #FFFFFF;   /* the answer sheet */
+    --ink: #1A2236;       /* main text */
+    --muted: #5A6378;     /* secondary text */
+    --line: #DCE1EA;      /* thin dividers */
+    --accent: #6890F0;    /* JavaScript swaps this for the chosen Pokémon's colour */
+
+    --display: "Dela Gothic One", "Arial Black", sans-serif;
+    --text: "M PLUS Rounded 1c", "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+}
+
+/* Header, main and footer share one centred column */
+.hero,
+main,
+footer {
+    width: min(920px, calc(100% - 40px));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ---------- The question (and search box) ---------- */
+.hero {
+    padding: 72px 0 36px;
+}
+
+.question {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(2rem, 7vw, 4.75rem);
+    line-height: 1.1;
+}
+
+.question label {
+    display: block;
+}
+
+.question-line {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    max-width: 100%;
+}
+
+/* Invisible copy of the typed name; JavaScript reads its width */
+.sizer {
+    position: absolute;
+    visibility: hidden;
+    padding: 0 0.22em;
+    border: 0.05em solid transparent;
+    white-space: pre;
+    text-transform: capitalize;
+}
+
+/* The search box: a coloured, outlined box so it's clear you can type in it */
+#search {
+    width: 7ch;                 /* JavaScript makes it exactly as wide as the name */
+    max-width: 100%;
+    margin-right: 0.08em;
+    padding: 0 0.22em;
+    border: 0.05em solid color-mix(in srgb, var(--accent) 60%, white);
+    border-radius: 0.2em;
+    background: color-mix(in srgb, var(--accent) 14%, white);
+    color: var(--ink);
+    font: inherit;
+    text-transform: capitalize;
+    cursor: text;
+    transition: border-color 0.3s, background-color 0.3s, box-shadow 0.2s;
+}
+
+#search::placeholder {
+    color: color-mix(in srgb, var(--accent) 55%, var(--ink));
+    opacity: 0.55;
+}
+
+#search:hover {
+    border-color: var(--accent);
+}
+
+/* While you're typing: white box with a soft glow */
+#search:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 0.09em color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* Hide Chrome's dropdown arrow; the suggestions still appear while typing */
+#search::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
+
+.intro {
+    max-width: 34em;
+    margin: 22px 0 0;
+    color: var(--muted);
+    font-size: 1.15rem;
+}
+
+.quick-picks {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+}
+
+.quick-picks span {
+    margin-right: 4px;
+    color: var(--muted);
+}
+
+.quick-picks button {
+    padding: 6px 15px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font: 500 0.95rem var(--text);
+    cursor: pointer;
+}
+
+.quick-picks button:hover {
+    border-color: var(--ink);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ---------- The answer sheet ---------- */
+main {
+    padding-bottom: 72px;
+}
+
+#result:empty {
+    display: none;
+}
+
+.sheet {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: var(--surface);
+}
+
+.profile {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+    gap: 32px;
+    padding: 32px;
+}
+
+.art {
+    display: grid;
+    place-items: center;
+    width: 220px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--poke) 30%, white);
+    animation: pop 0.35s ease-out;
+}
+
+.art img {
+    width: 86%;
+    height: auto;
+}
+
+.no-image {
+    padding: 24px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.dex {
+    margin: 0;
+    color: var(--muted);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.name {
+    margin: 2px 0 12px;
+    font-family: var(--display);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.type {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 3px 12px 3px 9px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--type) 22%, white);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.type::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--type);
+}
+
+.facts {
+    margin: 14px 0 0;
+    color: var(--muted);
+}
+
+/* ---------- Stat bars ---------- */
+.stats {
+    padding: 24px 32px 30px;
+    border-top: 1px solid var(--line);
+}
+
+.stat {
+    display: grid;
+    grid-template-columns: 7.5rem 2.5rem 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 5px 0;
+}
+
+.stat-name {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.stat-value {
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.bar {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--ink) 7%, white);
+}
+
+.bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--poke);
+}
+
+.total {
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+}
+
+.total .stat-name {
+    color: var(--ink);
+    font-weight: 800;
+}
+
+.empty {
+    color: var(--muted);
+}
+
+/* ---------- Footer ---------- */
+footer {
+    padding: 28px 0 48px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0 0 6px;
+}
+
+/* ---------- Motion ---------- */
+@keyframes pop {
+    from { transform: scale(0.92); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .art { animation: none; }
+    #search { transition: none; }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 640px) {
+    .hero {
+        padding-top: 40px;
+    }
+
+    .profile {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 18px;
+        padding: 24px 20px;
+        text-align: center;
+    }
+
+    .art {
+        width: 180px;
+    }
+
+    .types {
+        justify-content: center;
+    }
+
+    .stats {
+        padding: 20px;
+    }
+
+    .stat {
+        grid-template-columns: 6.5rem 2.2rem 1fr;
+        gap: 10px;
+    }
+}
+/* ---------- The verdict ---------- */
+.verdict {
+    margin-bottom: 20px;
+    padding: 26px 32px;
+    border-radius: 28px;
+    background: var(--verdict-bg);
+    color: var(--verdict-ink);
+    animation: pop 0.35s ease-out;
+}
+
+.verdict h2 {
+    margin: 0 0 6px;
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.verdict p {
+    max-width: 40em;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.verdict-yes   { --verdict-bg: #DDF3E6; --verdict-ink: #135C33; }
+.verdict-maybe { --verdict-bg: #FCEFCF; --verdict-ink: #6B4A00; }
+.verdict-no    { --verdict-bg: #FADCDC; --verdict-ink: #7A1F1F; }
+.verdict-none  { --verdict-bg: #E6EAF2; --verdict-ink: #1A2236; }
+
+/* ---------- Before / after comparison ---------- */
+.compare {
+    margin-bottom: 20px;
+}
+
+.compare-top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
+    gap: 16px;
+    padding: 28px 32px;
+}
+
+.side {
+    text-align: center;
+}
+
+.side .art {
+    width: 170px;
+    margin: 0 auto 10px;
+}
+
+.side .name {
+    margin: 4px 0 8px;
+    font-size: 1.7rem;
+}
+
+.side .types {
+    justify-content: center;
+}
+
+.label {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.arrow {
+    align-self: start;
+    margin-top: 100px;
+    color: var(--muted);
+    font-size: 2.6rem;
+    font-weight: 800;
+}
+
+.tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.tag-yes   { background: #DDF3E6; color: #135C33; }
+.tag-maybe { background: #FCEFCF; color: #6B4A00; }
+.tag-no    { background: #FADCDC; color: #7A1F1F; }
+
+.next {
+    display: block;
+    margin: 12px auto 0;
+    padding: 6px 15px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font: 500 0.95rem var(--text);
+    cursor: pointer;
+}
+
+.next:hover {
+    border-color: var(--ink);
+}
+
+/* Stat table: now / after / change */
+.cstats {
+    padding: 18px 32px 26px;
+    border-top: 1px solid var(--line);
+}
+
+.crow {
+    display: grid;
+    grid-template-columns: 1fr 4rem 4rem 4.5rem;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.chead {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.num,
+.change {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.num { font-weight: 700; }
+.change { font-weight: 800; }
+.up { color: #1F8A4C; }
+.down { color: #C43B3B; }
+.same { color: var(--muted); }
+
+.ctotal {
+    border-bottom: 0;
+    font-weight: 800;
+}
+
+.ctotal .stat-name {
+    color: var(--ink);
+    font-weight: 800;
+}
+
+/* ---------- How the answer works ---------- */
+.method {
+    max-width: 40em;
+    margin-top: 48px;
+}
+
+.method h2 {
+    margin: 0 0 10px;
+    font-family: var(--display);
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.method li {
+    margin-bottom: 6px;
+}
+
+/* ---------- Phones: comparison ---------- */
+@media (max-width: 640px) {
+    .verdict { padding: 22px 20px; }
+    .compare-top { grid-template-columns: 1fr; padding: 22px 20px; }
+    .arrow { margin: 0; text-align: center; transform: rotate(90deg); }
+    .side .art { width: 140px; }
+    .cstats { padding: 14px 20px 20px; }
+    .crow { grid-template-columns: 1fr 3rem 3rem 3.6rem; gap: 8px; }
+}

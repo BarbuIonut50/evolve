@@ -1,1 +1,64 @@
-<h1>Should I evolve this Pokémon?</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Should I evolve?</title>
+
+    <!-- Fonts from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero">
+        <!-- The question is also the search box -->
+        <form id="question-form" class="question" autocomplete="off">
+            <label for="search">Should I evolve</label>
+            <span class="question-line">
+                <input id="search" type="text" list="names" placeholder="Pikachu" spellcheck="false" autofocus>
+                <span aria-hidden="true">?</span>
+                <!-- Invisible copy of the name, used to measure how wide the box should be -->
+                <span id="sizer" class="sizer" aria-hidden="true"></span>
+            </span>
+            <datalist id="names"></datalist>
+        </form>
+
+        <p class="intro">Type a Pokémon's name or Pokédex number. You'll see how it compares with what it evolves into, and whether evolving is worth it.</p>
+
+        <div class="quick-picks">
+            <span>Try</span>
+            <button type="button" data-name="charmander">Charmander</button>
+            <button type="button" data-name="eevee">Eevee</button>
+            <button type="button" data-name="nincada">Nincada</button>
+            <button type="button" data-name="scyther">Scyther</button>
+            <button type="button" data-name="magikarp">Magikarp</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- JavaScript puts the answer in here -->
+        <section id="result" aria-live="polite"></section>
+
+        <section class="method">
+            <h2>How the answer works</h2>
+            <p>The site compares the Pokémon's six base stats (HP, Attack, Defense, Sp. Attack, Sp. Defense and Speed) with the stats of what it evolves into.</p>
+            <ul>
+                <li><strong>Yes, evolve it!</strong> The total goes up and no stat drops by 20 or more.</li>
+                <li><strong>Yes, but think about it.</strong> The total goes up or stays the same, but at least one stat drops by 20 or more.</li>
+                <li><strong>No, press B!</strong> The total goes down. In the games, pressing B stops an evolution.</li>
+            </ul>
+            <p>The data has no move lists or evolution levels, so the answer is based on stats only.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>A school project. Data from the course file pokemon.csv. Pictures from the PokeAPI sprite collection on GitHub.</p>
+        <p>Pokémon is a trademark of Nintendo, Creatures and Game Freak. This site isn't affiliated with them.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
